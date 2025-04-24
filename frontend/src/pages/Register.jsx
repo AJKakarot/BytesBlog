@@ -19,13 +19,13 @@ function Register() {
   const [photoPreview, setPhotoPreview] = useState("");
 
   const changePhotoHandler = (e) => {
-    console.log(e);
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       setPhotoPreview(reader.result);
       setPhoto(file);
+    
     };
   };
 
@@ -41,7 +41,7 @@ function Register() {
     formData.append("photo", photo);
     try {
       const { data } = await axios.post(
-        "http://localhost:4001/api/users/register",
+        "http://localhost:4000/api/users/register",
         formData,
         {
           withCredentials: true,
@@ -51,7 +51,7 @@ function Register() {
         }
       );
       console.log(data);
-      localStorage.setItem("jwt", data.token); // storing token in localStorage so that if user refreshed the page it will not redirect again in login
+      localStorage.setItem("jwt", data.token);
       toast.success(data.message || "User registered successfully");
       setProfile(data);
       setIsAuthenticated(true);
@@ -63,7 +63,7 @@ function Register() {
       setEducation("");
       setPhoto("");
       setPhotoPreview("");
-      navigateTo("/");
+      navigateTo("/login");
     } catch (error) {
       console.log(error);
       toast.error(
@@ -73,97 +73,97 @@ function Register() {
   };
 
   return (
-    <div>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
-          <form onSubmit={handleRegister}>
-            <div className="font-semibold text-xl items-center text-center">
-              Cilli<span className="text-blue-500">Blog</span>
-            </div>
-            <h1 className="text-xl font-semibold mb-6">Register</h1>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full p-2 mb-4 border rounded-md"
-            >
-              <option value="">Select Role</option>
-              <option value="user">user</option>
-              <option value="admin">admin</option>
-            </select>
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full p-2  border rounded-md"
+    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800">
+      <div className="w-full max-w-sm sm:max-w-sm bg-white/10 backdrop-blur-md shadow-xl rounded-2xl px-6 py-4 space-y-4 border border-white/20">
+        <form onSubmit={handleRegister} className="space-y-5">
+          <div className="text-3xl font-bold text-center text-white">
+            Byte<span className="text-yellow-400">Blog</span>
+          </div>
+          <h1 className="text-xl font-semibold text-center text-white">Register</h1>
+
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="w-full p-2 bg-white/20 text-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          >
+            <option value="">Select Role</option>
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+          </select>
+
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full p-2 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+
+          <input
+            type="email"
+            placeholder="Your Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+
+          <input
+            type="number"
+            placeholder="Your Phone Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="w-full p-2 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+
+          <input
+            type="password"
+            placeholder="Your Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 bg-white/20  text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+
+          <select
+            value={education}
+            onChange={(e) => setEducation(e.target.value)}
+            className="w-full p-2 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          >
+            <option value="">Select Your Education</option>
+            <option value="BCA">B.TECH</option>
+            <option value="MCA">M.TECH</option>
+            <option value="MBA">MBA</option>
+            <option value="BBA">BBA</option>
+          </select>
+
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
+              <img
+                src={photoPreview ? photoPreview : "https://via.placeholder.com/80"}
+                alt=""
+                className="w-full h-full object-cover"
               />
             </div>
-            <div className="mb-4">
-              <input
-                type="email"
-                placeholder="Your Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-2  border rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                type="number"
-                placeholder="Your Phone Number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full p-2  border rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                type="password"
-                placeholder="Your Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-2  border rounded-md"
-              />
-            </div>
-            <select
-              value={education}
-              onChange={(e) => setEducation(e.target.value)}
-              className="w-full p-2 mb-4 border rounded-md"
-            >
-              <option value="">Select Your Education</option>
-              <option value="BCA ">BCA</option>
-              <option value="MCA ">MCA</option>
-              <option value="MBA ">MBA</option>
-              <option value="BBA ">BBA</option>
-            </select>
-            <div className="flex items-center mb-4">
-              <div className="photo w-20 h-20 mr-4">
-                <img
-                  src={photoPreview ? `${photoPreview}` : "photo"}
-                  alt="photo"
-                />
-              </div>
-              <input
-                type="file"
-                onChange={changePhotoHandler}
-                className="w-full p-2  border rounded-md"
-              />
-            </div>
-            <p className="text-center mb-4">
-              Already registered?{" "}
-              <Link to={"/login"} className="text-blue-600">
-                Login Now
-              </Link>
-            </p>
-            <button
-              type="submit"
-              className="w-full p-2 bg-blue-500 hover:bg-blue-800 duration-300 rounded-md text-white"
-            >
-              Register
-            </button>
-          </form>
-        </div>
+            <input
+              type="file"
+              onChange={changePhotoHandler}
+              className="w-full p-2 text-black file:bg-yellow-400 file:text-blue-900 file:rounded-md file:px-3 file:py-1"
+            />
+          </div>
+
+          <p className="text-center text-sm text-white/80">
+            Already registered?{" "}
+            <Link to={"/login"} className="text-yellow-300 font-medium hover:underline">
+              Login Now
+            </Link>
+          </p>
+
+          <button
+            type="submit"
+            className="w-full p-3 bg-yellow-400 hover:bg-yellow-500 transition duration-300 rounded-md text-blue-900 font-bold"
+          >
+            Register
+          </button>
+        </form>
       </div>
     </div>
   );

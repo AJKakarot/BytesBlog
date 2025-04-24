@@ -17,7 +17,7 @@ function Navbar() {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        "http://localhost:4001/api/users/logout",
+        "http://localhost:4000/api/users/logout",
         { withCredentials: true }
       );
       console.log(data);
@@ -33,27 +33,27 @@ function Navbar() {
 
   return (
     <>
-      <nav className=" shadow-lg px-4 py-2">
+      <nav className="shadow-lg px-4 py-2">
         <div className="flex items-center justify-between container mx-auto">
           <div className="font-semibold text-xl">
-            Cilli<span className="text-blue-500">Blog</span>
+            Byte<span className="text-yellow-400">Blog</span>
           </div>
           {/* Desktop */}
           <div className=" mx-6">
             <ul className="hidden md:flex space-x-6">
-              <Link to="/" className="hover:text-blue-500">
+              <Link to="/" className="hover:text-yellow-400">
                 HOME
               </Link>
-              <Link to="/blogs" className="hover:text-blue-500">
+              <Link to="/blogs" className="hover:text-yellow-400">
                 BLOGS
               </Link>
-              <Link to="/creators" className="hover:text-blue-500">
+              <Link to="/creators" className="hover:text-yellow-400">
                 CREATORS
               </Link>
-              <Link to="/about" className="hover:text-blue-500">
+              <Link to="/about" className="hover:text-yellow-400">
                 ABOUT
               </Link>
-              <Link to="/contact" className="hover:text-blue-500">
+              <Link to="/contact" className="hover:text-yellow-400">
                 CONTACT
               </Link>
             </ul>
@@ -65,7 +65,7 @@ function Navbar() {
             {isAuthenticated && profile?.user?.role === "admin" ? (
               <Link
                 to="/dashboard"
-                className="bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 px-4 py-2 rounded"
+                className="bg-yellow-400 text-blue-900 font-semibold hover:bg-yellow-500 duration-300 px-4 py-2 rounded"
               >
                 DASHBOARD
               </Link>
@@ -75,8 +75,8 @@ function Navbar() {
 
             {!isAuthenticated ? (
               <Link
-                to="/Login"
-                className="bg-red-600 text-white font-semibold hover:bg-red-800 duration-300 px-4 py-2 rounded"
+                to="/login"
+                className="bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 px-4 py-2 rounded"
               >
                 LOGIN
               </Link>
@@ -103,7 +103,7 @@ function Navbar() {
                 duration={500}
                 offset={-70}
                 activeClass="active"
-                className="hover:text-blue-500"
+                className="hover:text-yellow-400"
               >
                 HOME
               </Link>
@@ -114,7 +114,7 @@ function Navbar() {
                 duration={500}
                 offset={-70}
                 activeClass="active"
-                className="hover:text-blue-500"
+                className="hover:text-yellow-400"
               >
                 BLOGS
               </Link>
@@ -125,7 +125,7 @@ function Navbar() {
                 duration={500}
                 offset={-70}
                 activeClass="active"
-                className="hover:text-blue-500"
+                className="hover:text-yellow-400"
               >
                 CREATORS
               </Link>
@@ -136,7 +136,7 @@ function Navbar() {
                 duration={500}
                 offset={-70}
                 activeClass="active"
-                className="hover:text-blue-500"
+                className="hover:text-yellow-400"
               >
                 ABOUT
               </Link>
@@ -147,7 +147,7 @@ function Navbar() {
                 duration={500}
                 offset={-70}
                 activeClass="active"
-                className="hover:text-blue-500"
+                className="hover:text-yellow-400"
               >
                 CONTACT
               </Link>

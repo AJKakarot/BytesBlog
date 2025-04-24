@@ -4,66 +4,83 @@ import { useAuth } from "../context/AuthProvider";
 function About() {
   const { profile } = useAuth();
   console.log(profile);
+
   return (
-    <div className="container mx-auto my-12 p-4 space-y-9">
-      <h1 className="text-2xl font-bold mb-6">About</h1>
-      <p>
-        This is{" "}
-        <strong className="text-blue-800 font-semibold hover:scale-105 duration-500">
-          {profile?.user?.name}
-        </strong>{" "}
-        a proficient full stack developer with a robust skill set spanning both
-        front-end and back-end technologies. With a passion for building
-        dynamic, responsive, and user-friendly web applications, Akhil excels in
-        crafting seamless digital experiences.
-      </p>
-      <h2 className="font-semibold text-blue-800 text-xl">
-        Technical Expertise:
-      </h2>
-      <p>
-        Front-End: Adept in modern JavaScript frameworks and libraries such as
-        React.js, Angular, and Vue.js. Skilled in HTML5, CSS3, and responsive
-        design principles to create intuitive and visually appealing interfaces.
-        Back-End: Proficient in server-side technologies including Node.js,
-        Express.js, and Django. Experienced with database management using SQL
-        and NoSQL databases like MySQL, PostgreSQL, and MongoDB. DevOps:
-        Knowledgeable in containerization and orchestration tools such as Docker
-        and Kubernetes. Familiar with continuous integration and deployment
-        (CI/CD) pipelines. Cloud Services: Experience with cloud platforms like
-        AWS, Azure, and Google Cloud, enabling scalable and reliable application
-        deployment.
-      </p>
-      <h2 className="font-semibold text-blue-800 text-xl">
-        Professional Highlights:
-      </h2>
-      <p>
-        Successfully developed and deployed numerous full-stack applications,
-        demonstrating strong problem-solving skills and a keen eye for detail.
-        Collaborated with cross-functional teams to deliver high-quality
-        software solutions within tight deadlines. Continuously learning and
-        adapting to emerging technologies and industry trends to stay ahead in
-        the fast-evolving tech landscape.
-      </p>
-      <br />
-      <span>
-        Akhil K is dedicated to leveraging his expertise to contribute to
-        innovative projects and drive technological advancements. Whether
-        working on front-end interfaces or back-end logic, he is passionate
-        about delivering exceptional digital solutions that meet user needs and
-        exceed client expectations.
-      </span>
-      <h2 className="font-semibold text-blue-800 text-xl">
-        Personal Interests and Inspiration:
-      </h2>
-      <p>
-        Beyond his professional achievements, Akhil is a big fan of cricket and
-        holds immense admiration for <strong> King Kohli.</strong> His favorite
-        person and biggest inspiration is his twin brother,{" "}
-        <strong>Ankush.</strong> Their friendly rivalry and deep bond have
-        significantly shaped Akhil’s journey. Ankush is not only a great
-        competitor but also a steadfast friend, constantly motivating Akhil to
-        strive for excellence.
-      </p>
+    <div className="bg-yellow-100 min-h-screen py-12 px-4">
+      <div className="container mx-auto bg-white p-8 rounded-lg shadow-lg space-y-9">
+        <h1 className="text-3xl text-blue-800 font-bold mb-6">About Me</h1>
+
+        <p className="text-blue-800">
+          Hey there! I'm{" "}
+          <strong className="font-semibold hover:scale-105 inline-block transition-transform duration-300">
+            Ajeet Gupta
+          </strong>
+          , a passionate Computer Science Engineering student currently in my
+          2nd year at Dr. Ambedkar Institute of Technology for Handicapped,
+          Kanpur.
+        </p>
+
+        <h2 className="font-semibold text-blue-800 text-xl">
+          My Background & Interests
+        </h2>
+        <p className="text-blue-800">
+          I’m deeply interested in{" "}
+          <strong>Artificial Intelligence</strong> and{" "}
+          <strong>Machine Learning</strong>, and I love building full-stack
+          projects that solve real-world problems. I'm always exploring new
+          technologies, and I believe in continuous learning and hands-on
+          practice.
+        </p>
+
+        <h2 className="font-semibold text-blue-800 text-xl">What I’ve Done</h2>
+        <p className="text-blue-800">
+          - 🏆 Won 4th place in a National Hackathon
+          <br />
+          - 🥇 Secured 1st position in a college project competition
+          <br />
+          - 👨‍💻 Created full-stack apps using <strong>MERN</strong>,{" "}
+          <strong>FELL</strong>, and more
+          <br />
+          - 💻 Built a Blog App, Simon Game, Password Generator, and a Travel
+          Project called <strong>Wanderlust</strong>
+          <br />
+          - 🎯 Tech coordinator in college with active participation in tech and
+          sports events
+        </p>
+
+        <h2 className="font-semibold text-blue-800 text-xl">
+          Tech Stack & Skills
+        </h2>
+        <p className="text-blue-800">
+          <strong>Frontend:</strong> React.js, HTML, CSS, JavaScript,
+          Bootstrap, Tailwind
+          <br />
+          <strong>Backend:</strong> Node.js, Express.js, Firebase, MongoDB
+          <br />
+          <strong>Tools:</strong> GitHub, Postman, VS Code, Canva (presentation
+          support from teammates)
+          <br />
+        </p>
+
+        <h2 className="font-semibold text-blue-800 text-xl">Beyond Code</h2>
+        <p className="text-blue-800">
+          When I’m not debugging or building full-stack projects, you’ll
+          probably find me diving into open-source repos or brainstorming the
+          next big idea with my teammates. I’m passionate about clean code,
+          smart UI/UX, and solving real-world problems with tech.
+          <br />
+          <br />
+          I draw daily inspiration from the developer community—and from my
+          brother <strong>Divyansh Sharma</strong>, who’s been my constant
+          motivator, critic, and coding buddy since day one. Whether it’s a
+          hackathon, a late-night bug fix, or a spontaneous idea sprint—we’re
+          always pushing each other to level up.
+          <br />
+          <br />
+          I'm always up for new collaborations, side projects, or just geeking
+          out over code. Let’s connect and build something impactful together!
+        </p>
+      </div>
     </div>
   );
 }

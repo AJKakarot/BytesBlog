@@ -17,7 +17,7 @@ function Login() {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4001/api/users/login",
+        "http://localhost:4000/api/users/login",
         { email, password, role },
         {
           withCredentials: true,
@@ -27,8 +27,7 @@ function Login() {
         }
       );
       console.log(data);
-      // Store the token in localStorage
-      localStorage.setItem("jwt", data.token); // storing token in localStorage so that if user refreshed the page it will not redirect again in login
+      localStorage.setItem("jwt", data.token);
       toast.success(data.message || "User Logined successfully", {
         duration: 3000,
       });
@@ -41,7 +40,7 @@ function Login() {
     } catch (error) {
       console.log(error);
       toast.error(
-        error.response.data.message || "Please fill the required fields",
+        error.response?.data?.message || "Please fill the required fields",
         {
           duration: 3000,
         }
@@ -50,58 +49,56 @@ function Login() {
   };
 
   return (
-    <div>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
-          <form onSubmit={handleLogin}>
-            <div className="font-semibold text-xl items-center text-center">
-              Cilli<span className="text-blue-500">Blog</span>
-            </div>
-            <h1 className="text-xl font-semibold mb-6">Login</h1>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full p-2 mb-4 border rounded-md"
-            >
-              <option value="">Select Role</option>
-              <option value="user">user</option>
-              <option value="admin">admin</option>
-            </select>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-md shadow-xl rounded-2xl px-10 py-8 space-y-6 border border-white/20">
+        <form onSubmit={handleLogin} className="space-y-6">
+          <div className="text-3xl font-bold text-center text-white">
+            Byte<span className="text-yellow-400">Blog</span>
+          </div>
+          <h1 className="text-xl font-semibold text-center text-white">
+            Login
+          </h1>
 
-            <div className="mb-4">
-              <input
-                type="email"
-                placeholder="Your Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-2  border rounded-md"
-              />
-            </div>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="w-full p-3 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          >
+            <option value="">Select Role</option>
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+          </select>
 
-            <div className="mb-4">
-              <input
-                type="password"
-                placeholder="Your Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-2  border rounded-md"
-              />
-            </div>
+          <input
+            type="email"
+            placeholder="Your Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
 
-            <p className="text-center mb-4">
-              New User?{" "}
-              <Link to={"/register"} className="text-blue-600">
-                Register Now
-              </Link>
-            </p>
-            <button
-              type="submit"
-              className="w-full p-2 bg-blue-500 hover:bg-blue-800 duration-300 rounded-md text-white"
-            >
-              Login
-            </button>
-          </form>
-        </div>
+          <input
+            type="password"
+            placeholder="Your Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+
+          <p className="text-center text-sm text-white/80">
+            New User?{" "}
+            <Link to={"/register"} className="text-yellow-300 font-medium hover:underline">
+              Register Now
+            </Link>
+          </p>
+
+          <button
+            type="submit"
+            className="w-full p-3 bg-yellow-400 hover:bg-yellow-500 transition duration-300 rounded-md text-blue-900 font-bold"
+          >
+            Login
+          </button>
+        </form>
       </div>
     </div>
   );

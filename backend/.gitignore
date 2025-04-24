@@ -1,0 +1,29 @@
+# Node Modules
+node_modules/
+
+# Build and Distribution Folders
+dist/
+build/
+
+# Environment Files
+.env
+.env.local
+.env.*.local
+
+# Log Files
+*.log
+
+# IDE/Editor Files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# OS-specific Files
+.DS_Store
+Thumbs.db
+
+# Testing Files
+coverage/
+
+# Yarn lock file (if using Yarn)
+package-lock.json

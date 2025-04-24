@@ -57,11 +57,16 @@ function Sidebar({ setComponent }) {
           <BiSolidLeftArrowAlt className="text-2xl" />
         </div>
         <div className="text-center">
-          <img
-            className="w-24 h-24 rounded-full mx-auto mb-2"
-            src={profile?.user?.photo?.url}
-            alt=""
-          />
+        <img
+  className="w-20 h-20 mt-1 rounded-full mx-auto mb-2 object-cover border-4 border-blue-400 shadow-lg"
+  src={
+    profile?.user?.photo?.url ||
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      profile?.user?.name || "User"
+    )}&background=0D8ABC&color=fff&size=128`
+  }
+  alt="User Profile"
+/>
           <p className="text-lg font-semibold">{profile?.user?.name}</p>
         </div>
         <ul className="space-y-6 mx-4">

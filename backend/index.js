@@ -12,7 +12,7 @@ const app = express();
 dotenv.config();
 
 const port = process.env.PORT;
-const MONOGO_URL = process.env.MONOG_URI;
+const MONOGO_URL = process.env.MONGO_URI;
 
 //middleware
 app.use(express.json());
@@ -46,8 +46,8 @@ app.use("/api/blogs", blogRoute);
 // Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_SECRET_KEY,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
 
 app.listen(port, () => {
