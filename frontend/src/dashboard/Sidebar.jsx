@@ -6,9 +6,8 @@ import { CiMenuBurger } from "react-icons/ci";
 import { BiSolidLeftArrowAlt } from "react-icons/bi";
 import toast from "react-hot-toast";
 
-function Sidebar({ setComponent }) {
+function Sidebar({ setComponent, setSidebarActive }) {
   const { profile, setIsAuthenticated } = useAuth();
-  // console.log(profile?.user);
   const navigateTo = useNavigate();
 
   const [show, setShow] = useState(false);
@@ -16,6 +15,7 @@ function Sidebar({ setComponent }) {
   const handleComponents = (value) => {
     setComponent(value);
   };
+
   const gotoHome = () => {
     navigateTo("/");
   };
@@ -28,11 +28,10 @@ function Sidebar({ setComponent }) {
         { withCredentials: true }
       );
       toast.success(data.message);
-       localStorage.removeItem("jwt"); // deleting token in localStorage so that if user logged out it will goes to login page
+      localStorage.removeItem("jwt");
       setIsAuthenticated(false);
       navigateTo("/login");
     } catch (error) {
-      console.log(error);
       toast.error(error.data.message || "Failed to logout");
     }
   };
@@ -41,32 +40,30 @@ function Sidebar({ setComponent }) {
     <>
       <div
         className="sm:hidden fixed top-4 left-4 z-50"
-        onClick={() => setShow(!show)}
+        onClick={() => { setShow(!show); setSidebarActive(!show); }}
       >
         <CiMenuBurger className="text-2xl" />
       </div>
       <div
-        className={`w-64 h-full shadow-lg fixed top-0 left-0 bg-gray-50 transition-transform duration-300 transform sm:translate-x-0 ${
-          show ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`w-64 h-full shadow-lg fixed top-0 left-0 bg-gray-50 transition-transform duration-300 transform sm:translate-x-0 ${show ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div
           className="sm:hidden absolute top-4 right-4 text-xl cursor-pointer"
-          onClick={() => setShow(!show)}
+          onClick={() => { setShow(!show); setSidebarActive(!show); }}
         >
           <BiSolidLeftArrowAlt className="text-2xl" />
         </div>
-        <div className="text-center">
-        <img
-  className="w-20 h-20 mt-1 rounded-full mx-auto mb-2 object-cover border-4 border-blue-400 shadow-lg"
-  src={
-    profile?.user?.photo?.url ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      profile?.user?.name || "User"
-    )}&background=0D8ABC&color=fff&size=128`
-  }
-  alt="User Profile"
-/>
+        <div className="text-center pt-6 pb-4">
+          <img
+            className="w-20 h-20 rounded-full  mx-auto mb-2 object-cover border-4 border-blue-400 shadow-lg"
+            src={
+              profile?.user?.photo?.url ||
+              `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                profile?.user?.name || "User"
+              )}&background=0D8ABC&color=fff&size=128`
+            }
+            alt="User Profile"
+          />
           <p className="text-lg font-semibold">{profile?.user?.name}</p>
         </div>
         <ul className="space-y-6 mx-4">
