@@ -1,15 +1,14 @@
-// App.js
 import React from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import Navbar from "../src/components/Navbar";
-import Footer from "../src/components/Footer";
-import Home from "../src/components/Home";
-import Blogs from "../src/pages/Blogs";
-import About from "../src/pages/About";
-import Contact from "../src/pages/Contact";
-import Login from "../src/pages/Login";
-import Register from "../src/pages/Register";
-import Dashboard from "../src/pages/Dashboard";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import Blogs from "./pages/Blogs";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 import Creators from "./pages/Creators";
 import Detail from "./pages/Detail";
 import UpdateBlog from "./dashboard/UpdateBlog";
@@ -21,32 +20,34 @@ import Loading from "./components/Loading";
 function App() {
   const location = useLocation();
   const hideNavbarFooter = ["/login", "/register"].includes(location.pathname);
-
   const { loading, isAuthenticated } = useAuth();
-  const token = localStorage.getItem("jwt");
 
-  // ⚡ Show loading spinner until auth (and any global fetches) finish
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <div>
       {!hideNavbarFooter && <Navbar />}
       <Routes>
-        <Route
-          path="/"
-          element={token ? <Home /> : <Navigate to="/login" />}
-        />
-        <Route path="/blogs" element={<Blogs />} />
+        {/* Root always redirects to /login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        {/* Protected Routes */}
+        <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/blog/update/:id" element={isAuthenticated ? <UpdateBlog /> : <Navigate to="/login" />} />
+
+        {/* Public Pages */}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/creators" element={<Creators />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="/blog/:id" element={<Detail />} />
-        <Route path="/blog/update/:id" element={<UpdateBlog />} />
+
+        {/* Auth Pages */}
+        <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/home" />} />
+        <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/home" />} />
+
+        {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />

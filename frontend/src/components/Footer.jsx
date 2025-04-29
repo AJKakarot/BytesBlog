@@ -66,7 +66,7 @@ const Footer = () => {
             Byte<span className="text-yellow-400">Blog</span>
           </div>
           <div className="text-sm text-gray-500 text-center sm:text-left">
-            &copy; 2024 ByteBlog. All rights reserved.
+            &copy; 2025 ByteBlog. All rights reserved.
           </div>
           <div className="flex space-x-5 text-yellow-400 text-2xl">
             <a href="https://github.com/AJKakarot" className="hover:text-yellow-500 transition-colors">

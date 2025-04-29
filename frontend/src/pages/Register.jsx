@@ -48,12 +48,7 @@ function Register() {
           },
         }
       );
-      localStorage.setItem("jwt", data.token);
       toast.success(data.message || "User registered successfully");
-      setProfile(data);
-      setIsAuthenticated(true);
-
-      // Reset form
       setName("");
       setEmail("");
       setPhone("");
@@ -62,12 +57,10 @@ function Register() {
       setEducation("");
       setPhoto("");
       setPhotoPreview("");
-      navigateTo("/login");
+      navigateTo("/login"); // ✅ go to login after successful registration
     } catch (error) {
       console.log(error);
-      toast.error(
-        error.response?.data?.message || "Please fill the required fields"
-      );
+      toast.error(error.response?.data?.message || "Registration failed");
     }
   };
 
@@ -151,7 +144,7 @@ function Register() {
 
           <p className="text-center text-sm text-white/80">
             Already registered?{" "}
-            <Link to={"/login"} className="text-yellow-300 font-medium hover:underline">
+            <Link to={"/"} className="text-yellow-300 font-medium hover:underline">
               Login Now
             </Link>
           </p>

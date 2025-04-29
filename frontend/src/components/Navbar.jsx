@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoCloseSharp } from "react-icons/io5";
@@ -11,6 +11,7 @@ function Navbar() {
   const { profile, isAuthenticated, setIsAuthenticated } = useAuth();
   const navigateTo = useNavigate();
 
+  // Handle logout functionality
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
@@ -19,7 +20,7 @@ function Navbar() {
         { withCredentials: true }
       );
       console.log(data);
-      localStorage.removeItem("jwt"); // deleting token in localStorage so that if user logged out it will go to login page
+      localStorage.removeItem("jwt"); // Deleting token from localStorage
       toast.success(data.message);
       setIsAuthenticated(false);
       navigateTo("/login");
@@ -29,6 +30,17 @@ function Navbar() {
     }
   };
 
+  // Check if user is authenticated on page load (from localStorage)
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      // If token exists, set user as authenticated
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [setIsAuthenticated]);
+
   return (
     <>
       <nav className="bg-gradient-to-br from-black via-gray-900 to-black px-4 py-2">
@@ -36,7 +48,7 @@ function Navbar() {
           <div className="font-semibold text-xl text-yellow-400">
             Byte<span className="text-yellow-400">Blog</span>
           </div>
-          {/* Desktop */}
+          {/* Desktop Navbar */}
           <div className="mx-6">
             <ul className="hidden md:flex space-x-6 text-yellow-300">
               <Link to="/" className="hover:text-yellow-400">
@@ -56,9 +68,14 @@ function Navbar() {
               </Link>
             </ul>
             <div className="md:hidden" onClick={() => setShow(!show)}>
-              {show ? <IoCloseSharp size={24} color="#FACC15" /> : <AiOutlineMenu size={24} color="#FACC15" />}
+              {show ? (
+                <IoCloseSharp size={24} color="#FACC15" />
+              ) : (
+                <AiOutlineMenu size={24} color="#FACC15" />
+              )}
             </div>
           </div>
+          {/* Desktop Authentication Links */}
           <div className="hidden md:flex space-x-2">
             {isAuthenticated && profile?.user?.role === "admin" ? (
               <Link
@@ -67,9 +84,7 @@ function Navbar() {
               >
                 DASHBOARD
               </Link>
-            ) : (
-              ""
-            )}
+            ) : null}
 
             {!isAuthenticated ? (
               <Link
@@ -90,7 +105,7 @@ function Navbar() {
             )}
           </div>
         </div>
-        {/* Mobile navbar */}
+        {/* Mobile Navbar */}
         {show && (
           <div className="bg-gradient-to-br from-black via-gray-900 to-black text-yellow-300">
             <ul className="flex flex-col h-screen items-center justify-center space-y-3 md:hidden text-xl">

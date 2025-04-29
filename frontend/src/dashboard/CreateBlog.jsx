@@ -1,14 +1,16 @@
-import axios from "axios";
 import React, { useState } from "react";
+import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [about, setAbout] = useState("");
-
   const [blogImage, setBlogImage] = useState("");
   const [blogImagePreview, setBlogImagePreview] = useState("");
+
+  const navigate = useNavigate();
 
   const changePhotoHandler = (e) => {
     const file = e.target.files[0];
@@ -27,6 +29,7 @@ function CreateBlog() {
     formData.append("category", category);
     formData.append("about", about);
     formData.append("blogImage", blogImage);
+
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/blogs/create",
@@ -39,11 +42,9 @@ function CreateBlog() {
         }
       );
       toast.success(data.message || "Blog created successfully");
-      setTitle("");
-      setCategory("");
-      setAbout("");
-      setBlogImage("");
-      setBlogImagePreview("");
+      // Navigate to home page and refresh the page
+      navigate("/");  // Navigate to home page
+      window.location.reload();  // Refresh the page to display the new blog
     } catch (error) {
       toast.error(error.message || "Failed to create blog");
     }
@@ -59,7 +60,7 @@ function CreateBlog() {
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-3 py-2 border  bg-white/20 text-black placeholder-black rounded-md outline-none"
+              className="w-full px-3 py-2 border bg-white/20 text-black placeholder-black rounded-md outline-none"
             >
               <option value="">Select Category</option>
               <option value="Devotion">Devotion</option>
@@ -77,7 +78,7 @@ function CreateBlog() {
               placeholder="Enter the title of your blog"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 border  bg-white/20 text-black placeholder-black rounded-md outline-none"
+              className="w-full px-3 py-2 border bg-white/20 text-black placeholder-black rounded-md outline-none"
             />
           </div>
 
@@ -93,7 +94,7 @@ function CreateBlog() {
             <input
               type="file"
               onChange={changePhotoHandler}
-              className="w-full px-3 py-2 border  bg-white/20 text-black placeholder-black rounded-md outline-none"
+              className="w-full px-3 py-2 border bg-white/20 text-black placeholder-black rounded-md outline-none"
             />
           </div>
 
@@ -104,13 +105,13 @@ function CreateBlog() {
               placeholder="Describe the content and purpose of your blog"
               value={about}
               onChange={(e) => setAbout(e.target.value)}
-              className="w-full px-3 py-2 border  bg-white/20 text-black placeholder-black rounded-md outline-none"
+              className="w-full px-3 py-2 border bg-white/20 text-black placeholder-black rounded-md outline-none"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 px-4  bg-yellow-500 hover:bg-yellow-600 text-black rounded-md transition-colors duration-200"
+            className="w-full py-3 px-4 bg-yellow-500 hover:bg-yellow-600 text-black rounded-md transition-colors duration-200"
           >
             Post Blog
           </button>

@@ -95,13 +95,13 @@ function UpdateBlog() {
   };
 
   return (
-    <div>
-      <div className="container mx-auto my-12 p-4">
-        <section className="max-w-2xl mx-auto">
+    <div className="bg-gradient-to-br from-black via-gray-900 to-black w-full min-h-screen flex flex-col">
+      <div className="container mx-auto my-12 p-4 flex-grow">
+        <section className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
           <h3 className="text-2xl font-semibold mb-6 text-yellow-400">UPDATE BLOG</h3>
           <form>
             <div className="mb-4">
-              <label className="block mb-2 font-semibold text-white">Category</label>
+              <label className="block mb-2 font-semibold text-black">Category</label>
               <select
                 className="w-full p-2 border rounded-md text-gray-900"
                 value={category}
@@ -123,7 +123,7 @@ function UpdateBlog() {
               onChange={(e) => setTitle(e.target.value)}
             />
             <div className="mb-4">
-              <label className="block mb-2 font-semibold text-white">BLOG IMAGE</label>
+              <label className="block mb-2 font-semibold text-black">BLOG IMAGE</label>
               <img
                 src={
                   blogImagePreview
@@ -159,7 +159,7 @@ function UpdateBlog() {
             />
 
             <button
-              className="w-full p-3 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="w-full p-3 bg-black text-yellow-400 rounded-md hover:bg-gray-900"
               onClick={handleUpdate}
             >
               UPDATE
@@ -167,6 +167,10 @@ function UpdateBlog() {
           </form>
         </section>
       </div>
+      {/* Footer section here */}
+      <footer className="bg-black text-white p-4 text-center">
+        <p>© 2025 ByteBlog. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

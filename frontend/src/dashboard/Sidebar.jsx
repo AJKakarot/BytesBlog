@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuth } from "../context/AuthProvider";
-import { useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import { BiSolidLeftArrowAlt } from "react-icons/bi";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom"; // Import navigate
 
 function Sidebar({ setComponent, setSidebarActive }) {
   const { profile, setIsAuthenticated } = useAuth();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize navigate from react-router-dom
 
   const handleComponents = (value) => {
     setComponent(value);
-    setSidebarActive(false); // Close sidebar on mobile after selecting
+    // Sidebar remains open, no need to close it
   };
 
   const gotoHome = () => {
-    navigate("/");
+    navigate("/"); // Redirect to home page
+    setSidebarActive(false); // Optionally close the sidebar on home button click
   };
 
   const handleLogout = async (e) => {
@@ -48,18 +49,17 @@ function Sidebar({ setComponent, setSidebarActive }) {
 
         {/* Profile Image */}
         <div className="text-center mb-6">
-        <img
-  className="w-20 h-20 rounded-full mx-auto mb-2 object-cover shadow-md"
-  src={
-    profile?.user?.photo?.url ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      profile?.user?.name || "User"
-    )}&background=FFEB3B&color=000000&size=128`
-  }
-  alt="User Profile"
-/>
-
-          <p className="text-lg font-semibold mt-2 text-yellow-400">{profile?.user?.name || "User"}</p>
+          <img
+            className="w-20 h-20 rounded-full mx-auto mb-2 object-cover shadow-md"
+            src={
+              profile?.user?.photo?.url ||
+              `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.user?.name || "User")}&background=FFEB3B&color=000000&size=128`
+            }
+            alt="User Profile"
+          />
+          <p className="text-lg font-semibold mt-2 text-yellow-400">
+            {profile?.user?.name || "User"}
+          </p>
         </div>
 
         {/* Navigation Buttons */}
