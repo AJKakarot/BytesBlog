@@ -35,7 +35,9 @@ export const AuthProvider = ({ children }) => {
       try {
         const { data } = await axios.get(
           `${BACKEND_URL}/api/blogs/all-blogs`,
-          { withCredentials: true }
+          { withCredentials: true ,
+            headers: { "Content-Type": "application/json" },
+          }
         );
         setBlogs(data);
       } catch (error) {
