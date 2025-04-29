@@ -10,12 +10,11 @@ function UpdateBlog() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [about, setAbout] = useState("");
-
   const [blogImage, setBlogImage] = useState("");
   const [blogImagePreview, setBlogImagePreview] = useState("");
+  const [initialBlogImage, setInitialBlogImage] = useState(""); // Store the initial image URL
 
   const changePhotoHandler = (e) => {
-    console.log(e);
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -25,12 +24,12 @@ function UpdateBlog() {
     };
   };
 
+  // Fetch existing blog data to pre-populate the form
   useEffect(() => {
     const fetchBlog = async () => {
       try {
         const { data } = await axios.get(
           `http://localhost:4000/api/blogs/single-blog/${id}`,
-
           {
             withCredentials: true,
             headers: {
@@ -38,27 +37,39 @@ function UpdateBlog() {
             },
           }
         );
-        console.log(data);
         setTitle(data?.title);
         setCategory(data?.category);
         setAbout(data?.about);
-        setBlogImage(data?.blogImage.url);
+        setBlogImage(data?.blogImage.url); // Set initial image
+        setInitialBlogImage(data?.blogImage.url); // Store the initial blog image URL
       } catch (error) {
         console.log(error);
-        toast.error("Please fill the required fields");
+        toast.error("Failed to fetch blog data");
       }
     };
     fetchBlog();
   }, [id]);
 
+  // Handle blog update
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("category", category);
-    formData.append("about", about);
 
-    formData.append("blogImage", blogImage);
+    // Prepare form data for fields that are changed
+    const formData = new FormData();
+    
+    // Only append the updated fields
+    if (title !== "") formData.append("title", title);
+    if (category !== "") formData.append("category", category);
+    if (about !== "") formData.append("about", about);
+
+    // Only append the new image if it's different from the initial one
+    if (blogImage && blogImage !== initialBlogImage) {
+      formData.append("blogImage", blogImage);
+    } else if (!blogImage && blogImagePreview === "") {
+      // If the user removed the image
+      formData.append("blogImage", "null");
+    }
+
     try {
       const { data } = await axios.put(
         `http://localhost:4000/api/blogs/update/${id}`,
@@ -70,27 +81,29 @@ function UpdateBlog() {
           },
         }
       );
-      console.log(data);
       toast.success(data.message || "Blog updated successfully");
-      navigateTo("/");
+      navigateTo(`/blog/${id}`); // Redirect to the updated blog details page
     } catch (error) {
-      console.log(error);
-      toast.error(
-        error.response.data.message || "Please fill the required fields"
-      );
+      toast.error(error.response?.data?.message || "Error updating the blog");
     }
+  };
+
+  // Function to handle image removal
+  const handleImageRemove = () => {
+    setBlogImage(null);
+    setBlogImagePreview("");
   };
 
   return (
     <div>
       <div className="container mx-auto my-12 p-4">
         <section className="max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold mb-6">UPDATE BLOG</h3>
+          <h3 className="text-2xl font-semibold mb-6 text-yellow-400">UPDATE BLOG</h3>
           <form>
             <div className="mb-4">
-              <label className="block mb-2 font-semibold">Category</label>
+              <label className="block mb-2 font-semibold text-white">Category</label>
               <select
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border rounded-md text-gray-900"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
@@ -105,12 +118,12 @@ function UpdateBlog() {
             <input
               type="text"
               placeholder="BLOG MAIN TITLE"
-              className="w-full p-2 mb-4 border rounded-md"
+              className="w-full p-2 mb-4 border rounded-md text-gray-900"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <div className="mb-4">
-              <label className="block mb-2 font-semibold">BLOG IMAGE</label>
+              <label className="block mb-2 font-semibold text-white">BLOG IMAGE</label>
               <img
                 src={
                   blogImagePreview
@@ -122,16 +135,25 @@ function UpdateBlog() {
                 alt="Blog Main"
                 className="w-full h-48 object-cover mb-4 rounded-md"
               />
+              {blogImage && !blogImagePreview && (
+                <button
+                  type="button"
+                  className="text-red-500 mt-2"
+                  onClick={handleImageRemove}
+                >
+                  Remove Image
+                </button>
+              )}
               <input
                 type="file"
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border rounded-md text-gray-900"
                 onChange={changePhotoHandler}
               />
             </div>
             <textarea
               rows="6"
-              className="w-full p-2 mb-4 border rounded-md"
-              placeholder="Something about your blog atleast 200 characters!"
+              className="w-full p-2 mb-4 border rounded-md text-gray-900"
+              placeholder="Something about your blog at least 200 characters!"
               value={about}
               onChange={(e) => setAbout(e.target.value)}
             />

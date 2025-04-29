@@ -28,45 +28,44 @@ function Login() {
       );
       console.log(data);
       localStorage.setItem("jwt", data.token);
-      toast.success(data.message || "User Logined successfully", {
-        duration: 3000,
-      });
+      toast.success(data.message || "User logged in successfully", { duration: 3000 });
       setProfile(data);
       setIsAuthenticated(true);
+
+      // Reset fields
       setEmail("");
       setPassword("");
       setRole("");
+
       navigateTo("/");
     } catch (error) {
       console.log(error);
       toast.error(
         error.response?.data?.message || "Please fill the required fields",
-        {
-          duration: 3000,
-        }
+        { duration: 3000 }
       );
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-md shadow-xl rounded-2xl px-10 py-8 space-y-6 border border-white/20">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black p-6">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl bg-white/10 backdrop-blur-md shadow-xl rounded-2xl px-8 py-10 space-y-6 border border-white/20 overflow-y-auto max-h-[90vh]">
         <form onSubmit={handleLogin} className="space-y-6">
-          <div className="text-3xl font-bold text-center text-white">
+          <div className="text-4xl font-extrabold text-center text-yellow-400">
             Byte<span className="text-yellow-400">Blog</span>
           </div>
-          <h1 className="text-xl font-semibold text-center text-white">
+          <h1 className="text-2xl font-semibold text-center text-yellow-400">
             Login
           </h1>
 
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            className="w-full p-3 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="w-full p-3 bg-white/20 text-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
           >
             <option value="">Select Role</option>
-            <option value="user">user</option>
-            <option value="admin">admin</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
           </select>
 
           <input

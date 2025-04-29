@@ -4,32 +4,29 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [blogs, setBlogs] = useState();
-  const [profile, setProfile] = useState();
+  const [blogs, setBlogs] = useState([]);
+  const [profile, setProfile] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // 👈 important
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // token should be let type variable because its value will change in every login. (in backend also)
-        let token = localStorage.getItem("jwt"); // Retrieve the token directly from the localStorage (Go to login.jsx)
-        console.log(token);
-        if (token) {
-          const { data } = await axios.get(
-            "http://localhost:4000/api/users/my-profile",
-            {
-              withCredentials: true,
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          console.log(data.user);
-          setProfile(data.user);
-          setIsAuthenticated(true);
-        }
+        const { data } = await axios.get(
+          "http://localhost:4000/api/users/my-profile",
+          {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        setProfile(data.user);
+        setIsAuthenticated(true);
       } catch (error) {
-        console.log(error);
+        console.log("Profile fetch error:", error);
+        setProfile(null);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -39,15 +36,14 @@ export const AuthProvider = ({ children }) => {
           "http://localhost:4000/api/blogs/all-blogs",
           { withCredentials: true }
         );
-        console.log(data);
         setBlogs(data);
       } catch (error) {
-        console.log(error);
+        console.log("Blogs fetch error:", error);
       }
     };
 
-    fetchBlogs();
     fetchProfile();
+    fetchBlogs();
   }, []);
 
   return (
@@ -58,6 +54,7 @@ export const AuthProvider = ({ children }) => {
         setProfile,
         isAuthenticated,
         setIsAuthenticated,
+        loading,  // 👈 pass loading also
       }}
     >
       {children}

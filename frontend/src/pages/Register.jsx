@@ -5,8 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
 function Register() {
-  const { isAuthenticated, setIsAuthenticated, setProfile } = useAuth();
-
+  const { setIsAuthenticated, setProfile } = useAuth();
   const navigateTo = useNavigate();
 
   const [name, setName] = useState("");
@@ -25,7 +24,6 @@ function Register() {
     reader.onload = () => {
       setPhotoPreview(reader.result);
       setPhoto(file);
-    
     };
   };
 
@@ -50,11 +48,12 @@ function Register() {
           },
         }
       );
-      console.log(data);
       localStorage.setItem("jwt", data.token);
       toast.success(data.message || "User registered successfully");
       setProfile(data);
       setIsAuthenticated(true);
+
+      // Reset form
       setName("");
       setEmail("");
       setPhone("");
@@ -67,28 +66,28 @@ function Register() {
     } catch (error) {
       console.log(error);
       toast.error(
-        error.response.data.message || "Please fill the required fields"
+        error.response?.data?.message || "Please fill the required fields"
       );
     }
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800">
-      <div className="w-full max-w-sm sm:max-w-sm bg-white/10 backdrop-blur-md shadow-xl rounded-2xl px-6 py-4 space-y-4 border border-white/20">
-        <form onSubmit={handleRegister} className="space-y-5">
-          <div className="text-3xl font-bold text-center text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black p-6">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl bg-white/10 backdrop-blur-md shadow-xl rounded-2xl px-8 py-10 space-y-6 border border-white/20 overflow-y-auto max-h-[90vh]">
+        <form onSubmit={handleRegister} className="space-y-6">
+          <div className="text-4xl font-extrabold text-center text-yellow-400">
             Byte<span className="text-yellow-400">Blog</span>
           </div>
-          <h1 className="text-xl font-semibold text-center text-white">Register</h1>
+          <h1 className="text-2xl font-semibold text-center text-yellow-400">Register</h1>
 
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            className="w-full p-2 bg-white/20 text-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="w-full p-3 bg-white/20 text-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
           >
             <option value="">Select Role</option>
-            <option value="user">user</option>
-            <option value="admin">admin</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
           </select>
 
           <input
@@ -96,7 +95,7 @@ function Register() {
             placeholder="Your Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="w-full p-3 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
 
           <input
@@ -104,7 +103,7 @@ function Register() {
             placeholder="Your Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="w-full p-3 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
 
           <input
@@ -112,7 +111,7 @@ function Register() {
             placeholder="Your Phone Number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="w-full p-2 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="w-full p-3 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
 
           <input
@@ -120,13 +119,13 @@ function Register() {
             placeholder="Your Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 bg-white/20  text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="w-full p-3 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
 
           <select
             value={education}
             onChange={(e) => setEducation(e.target.value)}
-            className="w-full p-2 bg-white/20 text-black placeholder-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="w-full p-3 bg-white/20 text-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
           >
             <option value="">Select Your Education</option>
             <option value="BCA">B.TECH</option>
@@ -135,8 +134,8 @@ function Register() {
             <option value="BBA">BBA</option>
           </select>
 
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white">
               <img
                 src={photoPreview ? photoPreview : "https://via.placeholder.com/80"}
                 alt=""
@@ -146,7 +145,7 @@ function Register() {
             <input
               type="file"
               onChange={changePhotoHandler}
-              className="w-full p-2 text-black file:bg-yellow-400 file:text-blue-900 file:rounded-md file:px-3 file:py-1"
+              className="flex-1 p-2 text-black file:bg-yellow-400 file:text-blue-900 file:rounded-md file:px-3 file:py-1"
             />
           </div>
 

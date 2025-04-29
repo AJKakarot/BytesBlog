@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 function MyBlogs() {
   const [myBlogs, setMyBlogs] = useState([]);
+
   useEffect(() => {
     const fetchMyBlogs = async () => {
       try {
@@ -12,72 +13,83 @@ function MyBlogs() {
           "http://localhost:4000/api/blogs/my-blog",
           { withCredentials: true }
         );
-        console.log(data);
         setMyBlogs(data);
       } catch (error) {
         console.log(error);
+        toast.error("Failed to fetch your blogs.");
       }
     };
     fetchMyBlogs();
   }, []);
 
   const handleDelete = async (id) => {
-    await axios
-      .delete(`http://localhost:4000/api/blogs/delete/${id}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        toast.success(res.data.message || "Blog deleted successfully");
-        setMyBlogs((value) => value.filter((blog) => blog._id !== id));
-      })
-      .catch((error) => {
-        toast.error(error.response.message || "Failed to delete blog");
-      });
+    try {
+      const res = await axios.delete(
+        `http://localhost:4000/api/blogs/delete/${id}`,
+        { withCredentials: true }
+      );
+      toast.success(res.data.message || "Blog deleted successfully");
+      setMyBlogs((prev) => prev.filter((blog) => blog._id !== id));
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message || "Failed to delete blog");
+    }
   };
+
   return (
-    <div>
-      <div className="container  ml-100 mx-auto my-12 p-4">
-        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:ml-20">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black py-12 px-6">
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-bold text-yellow-400 mb-10 text-center">
+          My Blogs
+        </h1>
+
+        <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {myBlogs && myBlogs.length > 0 ? (
             myBlogs.map((element) => (
               <div
-                className="bg-white shadow-lg rounded-lg overflow-hidden"
                 key={element._id}
+                className="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl border border-yellow-400 hover:scale-105 transform transition-all duration-300"
               >
                 {element?.blogImage && (
-                  <img
-                    src={element?.blogImage.url}
-                    alt="blogImg"
-                    className="w-full h-48 object-cover"
-                  />
+                  <div className="w-full h-60 bg-black flex items-center justify-center overflow-hidden">
+                    <img
+                      src={element?.blogImage.url}
+                      alt="Blog"
+                      className="object-contain h-full hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
                 )}
-                <div className="p-4">
-                  <span className="text-sm text-gray-600">
+                <div className="p-5">
+                  <div className="text-xs uppercase tracking-wider text-yellow-300 mb-2">
                     {element.category}
-                  </span>
-                  <h4 className="text-xl font-semibold my-2">
-                    {element.title}
+                  </div>
+
+                  <h4 className="text-xl font-semibold text-yellow-400 mb-4 break-words">
+                    {element.title.length > 60
+                      ? element.title.slice(0, 60) + "..."
+                      : element.title}
                   </h4>
-                  <div className="flex justify-between mt-4">
+
+                  <div className="flex justify-between">
                     <Link
                       to={`/blog/update/${element._id}`}
-                      className="text-blue-500 bg-white rounded-md shadow-lg px-3 py-1 border border-gray-400 hover:underline"
+                      className="bg-yellow-400 text-black font-semibold px-4 py-2 rounded-md shadow hover:bg-yellow-500 transition duration-300"
                     >
-                      UPDATE
+                      Update
                     </Link>
                     <button
                       onClick={() => handleDelete(element._id)}
-                      className="text-red-500 bg-white rounded-md shadow-lg px-3 py-1 border border-gray-400 hover:underline"
+                      className="bg-red-500 text-white font-semibold px-4 py-2 rounded-md shadow hover:bg-red-600 transition duration-300"
                     >
-                      DELETE
+                      Delete
                     </button>
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-500">
-              You have not posted any blog to see!
+            <p className="text-center text-gray-400 text-lg">
+              You have not posted any blog yet!
             </p>
           )}
         </div>

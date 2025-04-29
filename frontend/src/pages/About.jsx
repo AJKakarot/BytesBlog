@@ -6,11 +6,11 @@ function About() {
   console.log(profile);
 
   return (
-    <div className="bg-yellow-100 min-h-screen py-12 px-4">
-      <div className="container mx-auto bg-white p-8 rounded-lg shadow-lg space-y-9">
-        <h1 className="text-3xl text-blue-800 font-bold mb-6">About Me</h1>
+    <div className="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen py-12 px-4 text-white">
+      <div className="container mx-auto bg-white/20 backdrop-blur-md p-8 rounded-lg shadow-lg space-y-9">
+        <h1 className="text-3xl text-yellow-400 font-bold mb-6">About Me</h1>
 
-        <p className="text-blue-800">
+        <p className="text-yellow-300">
           Hey there! I'm{" "}
           <strong className="font-semibold hover:scale-105 inline-block transition-transform duration-300">
             Ajeet Gupta
@@ -20,10 +20,10 @@ function About() {
           Kanpur.
         </p>
 
-        <h2 className="font-semibold text-blue-800 text-xl">
+        <h2 className="font-semibold text-yellow-400 text-xl">
           My Background & Interests
         </h2>
-        <p className="text-blue-800">
+        <p className="text-yellow-300">
           I’m deeply interested in{" "}
           <strong>Artificial Intelligence</strong> and{" "}
           <strong>Machine Learning</strong>, and I love building full-stack
@@ -32,8 +32,8 @@ function About() {
           practice.
         </p>
 
-        <h2 className="font-semibold text-blue-800 text-xl">What I’ve Done</h2>
-        <p className="text-blue-800">
+        <h2 className="font-semibold text-yellow-400 text-xl">What I’ve Done</h2>
+        <p className="text-yellow-300">
           - 🏆 Won 4th place in a National Hackathon
           <br />
           - 🥇 Secured 1st position in a college project competition
@@ -48,10 +48,10 @@ function About() {
           sports events
         </p>
 
-        <h2 className="font-semibold text-blue-800 text-xl">
+        <h2 className="font-semibold text-yellow-400 text-xl">
           Tech Stack & Skills
         </h2>
-        <p className="text-blue-800">
+        <p className="text-yellow-300">
           <strong>Frontend:</strong> React.js, HTML, CSS, JavaScript,
           Bootstrap, Tailwind
           <br />
@@ -62,8 +62,8 @@ function About() {
           <br />
         </p>
 
-        <h2 className="font-semibold text-blue-800 text-xl">Beyond Code</h2>
-        <p className="text-blue-800">
+        <h2 className="font-semibold text-yellow-400 text-xl">Beyond Code</h2>
+        <p className="text-yellow-300">
           When I’m not debugging or building full-stack projects, you’ll
           probably find me diving into open-source repos or brainstorming the
           next big idea with my teammates. I’m passionate about clean code,
@@ -80,6 +80,17 @@ function About() {
           I'm always up for new collaborations, side projects, or just geeking
           out over code. Let’s connect and build something impactful together!
         </p>
+
+        <div className="text-center mt-8">
+          <a
+            href="https://zippy-raindrop-9b9455.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-yellow-400 font-semibold hover:scale-105 inline-block transition-transform duration-300"
+          >
+            Check out my portfolio!
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { CiMenuBurger } from "react-icons/ci";
 import { BiSolidLeftArrowAlt } from "react-icons/bi";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 function Sidebar({ setComponent, setSidebarActive }) {
   const { profile, setIsAuthenticated } = useAuth();
-  const navigateTo = useNavigate();
-
-  const [show, setShow] = useState(false);
+  const navigate = useNavigate();
 
   const handleComponents = (value) => {
     setComponent(value);
+    setSidebarActive(false); // Close sidebar on mobile after selecting
   };
 
   const gotoHome = () => {
-    navigateTo("/");
+    navigate("/");
   };
 
   const handleLogout = async (e) => {
@@ -30,76 +29,86 @@ function Sidebar({ setComponent, setSidebarActive }) {
       toast.success(data.message);
       localStorage.removeItem("jwt");
       setIsAuthenticated(false);
-      navigateTo("/login");
+      navigate("/login");
     } catch (error) {
-      toast.error(error.data.message || "Failed to logout");
+      toast.error(error?.response?.data?.message || "Failed to logout");
     }
   };
 
   return (
-    <>
-      <div
-        className="sm:hidden fixed top-4 left-4 z-50"
-        onClick={() => { setShow(!show); setSidebarActive(!show); }}
-      >
-        <CiMenuBurger className="text-2xl" />
-      </div>
-      <div
-        className={`w-64 h-full shadow-lg fixed top-0 left-0 bg-gray-50 transition-transform duration-300 transform sm:translate-x-0 ${show ? "translate-x-0" : "-translate-x-full"}`}
-      >
-        <div
-          className="sm:hidden absolute top-4 right-4 text-xl cursor-pointer"
-          onClick={() => { setShow(!show); setSidebarActive(!show); }}
-        >
-          <BiSolidLeftArrowAlt className="text-2xl" />
+    <div className="h-full w-full bg-gradient-to-br from-black via-gray-900 to-black p-6 flex flex-col justify-between">
+      {/* Top part */}
+      <div>
+        {/* Close button (only visible on small screens) */}
+        <div className="sm:hidden flex justify-end mb-4">
+          <button onClick={() => setSidebarActive(false)} className="text-yellow-400 text-2xl">
+            <BiSolidLeftArrowAlt />
+          </button>
         </div>
-        <div className="text-center pt-6 pb-4">
-          <img
-            className="w-20 h-20 rounded-full  mx-auto mb-2 object-cover border-4 border-blue-400 shadow-lg"
-            src={
-              profile?.user?.photo?.url ||
-              `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                profile?.user?.name || "User"
-              )}&background=0D8ABC&color=fff&size=128`
-            }
-            alt="User Profile"
-          />
-          <p className="text-lg font-semibold">{profile?.user?.name}</p>
+
+        {/* Profile Image */}
+        <div className="text-center mb-6">
+        <img
+  className="w-20 h-20 rounded-full mx-auto mb-2 object-cover shadow-md"
+  src={
+    profile?.user?.photo?.url ||
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      profile?.user?.name || "User"
+    )}&background=FFEB3B&color=000000&size=128`
+  }
+  alt="User Profile"
+/>
+
+          <p className="text-lg font-semibold mt-2 text-yellow-400">{profile?.user?.name || "User"}</p>
         </div>
-        <ul className="space-y-6 mx-4">
-          <button
-            onClick={() => handleComponents("My Blogs")}
-            className="w-full px-4 py-2 bg-green-500 rounded-lg hover:bg-green-700 transition duration-300"
-          >
-            MY BLOGS
-          </button>
-          <button
-            onClick={() => handleComponents("Create Blog")}
-            className="w-full px-4 py-2 bg-blue-400 rounded-lg hover:bg-blue-700 transition duration-300"
-          >
-            CREATE BLOG
-          </button>
-          <button
-            onClick={() => handleComponents("My Profile")}
-            className="w-full px-4 py-2 bg-pink-500 rounded-lg hover:bg-pink-700 transition duration-300"
-          >
-            MY PROFILE
-          </button>
-          <button
-            onClick={gotoHome}
-            className="w-full px-4 py-2 bg-red-500 rounded-lg hover:bg-red-700 transition duration-300"
-          >
-            HOME
-          </button>
-          <button
-            onClick={handleLogout}
-            className="w-full px-4 py-2 bg-yellow-500 rounded-lg hover:bg-yellow-700 transition duration-300"
-          >
-            LOGOUT
-          </button>
+
+        {/* Navigation Buttons */}
+        <ul className="space-y-4">
+          <li>
+            <button
+              onClick={() => handleComponents("My Blogs")}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg transition duration-200"
+            >
+              MY BLOGS
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => handleComponents("Create Blog")}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg transition duration-200"
+            >
+              CREATE BLOG
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => handleComponents("My Profile")}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg transition duration-200"
+            >
+              MY PROFILE
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={gotoHome}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg transition duration-200"
+            >
+              HOME
+            </button>
+          </li>
         </ul>
       </div>
-    </>
+
+      {/* Logout button at bottom */}
+      <div className="mt-6">
+        <button
+          onClick={handleLogout}
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg transition duration-200"
+        >
+          LOGOUT
+        </button>
+      </div>
+    </div>
   );
 }
 

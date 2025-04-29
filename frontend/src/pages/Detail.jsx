@@ -5,63 +5,74 @@ import { useParams } from "react-router-dom";
 
 function Detail() {
   const { id } = useParams();
-  const [blogs, setblogs] = useState({});
-  console.log(blogs);
+  const [blogs, setBlogs] = useState({});
+
   useEffect(() => {
-    const fetchblogs = async () => {
+    const fetchBlogs = async () => {
       try {
         const { data } = await axios.get(
           `http://localhost:4000/api/blogs/single-blog/${id}`,
-
           {
             withCredentials: true,
             headers: {
-                "Content-Type": "application/json",
+              "Content-Type": "application/json",
             },
           }
         );
-        console.log(data);
-        setblogs(data);
+        setBlogs(data);
       } catch (error) {
         console.log(error);
+        toast.error("Failed to fetch blog details.");
       }
     };
-    fetchblogs();
+    fetchBlogs();
   }, [id]);
-  return (
-    <div>
-      <div>
-        {blogs && (
-          <section className="container mx-auto p-4">
-            <div className="text-blue-500 uppercase text-xs font-bold mb-4">
-              {blogs?.category}
-            </div>
-            <h1 className="text-4xl font-bold mb-6">{blogs?.title}</h1>
-            <div className="flex items-center mb-6">
-              <img
-                src={blogs?.adminPhoto}
-                alt="author_avatar"
-                className="w-12 h-12 rounded-full mr-4"
-              />
-              <p className="text-lg font-semibold">{blogs?.adminName}</p>
-            </div>
 
-            <div className="flex flex-col md:flex-row">
-              {blogs?.blogImage && (
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black py-12 px-4">
+      {blogs && (
+        <section className="max-w-5xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/20">
+          {/* Category */}
+          <div className="text-yellow-400 uppercase text-xs font-bold mb-4 tracking-wider">
+            {blogs?.category}
+          </div>
+
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl font-bold mb-8 text-yellow-400 break-words">
+            {blogs?.title}
+          </h1>
+
+          {/* Author Info */}
+          <div className="flex items-center mb-8">
+            <img
+              src={blogs?.adminPhoto}
+              alt="Author Avatar"
+              className="w-12 h-12 rounded-full mr-4 border-2 border-yellow-400 object-cover"
+            />
+            <p className="text-lg font-semibold text-white">
+              {blogs?.adminName}
+            </p>
+          </div>
+
+          {/* Blog Content */}
+          <div className="flex flex-col md:flex-row gap-8">
+            {blogs?.blogImage && (
+              <div className="w-full md:w-1/2">
                 <img
                   src={blogs?.blogImage?.url}
-                  alt="mainblogsImg"
-                  className="md:w-1/2 w-full h-[500px] mb-6 rounded-lg shadow-lg cursor-pointer border"
+                  alt="Blog"
+                  className="rounded-xl w-full h-64 md:h-80 object-cover shadow-lg border border-yellow-400 transition-transform duration-300 hover:scale-105"
                 />
-              )}
-              <div className="md:w-1/2 w-full md:pl-6">
-                <p className="text-lg mb-6">{blogs?.about}</p>
-                {/* Add more content here if needed */}
               </div>
+            )}
+            <div className="w-full md:w-1/2 flex items-center">
+              <p className="text-base md:text-lg text-white/80 leading-relaxed">
+                {blogs?.about}
+              </p>
             </div>
-          </section>
-        )}
-      </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

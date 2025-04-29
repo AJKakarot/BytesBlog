@@ -8,9 +8,7 @@ import toast from "react-hot-toast";
 
 function Navbar() {
   const [show, setShow] = useState(false);
-
   const { profile, isAuthenticated, setIsAuthenticated } = useAuth();
-  console.log(profile?.user);
   const navigateTo = useNavigate();
 
   const handleLogout = async (e) => {
@@ -21,7 +19,7 @@ function Navbar() {
         { withCredentials: true }
       );
       console.log(data);
-      localStorage.removeItem("jwt"); // deleting token in localStorage so that if user logged out it will goes to login page
+      localStorage.removeItem("jwt"); // deleting token in localStorage so that if user logged out it will go to login page
       toast.success(data.message);
       setIsAuthenticated(false);
       navigateTo("/login");
@@ -33,14 +31,14 @@ function Navbar() {
 
   return (
     <>
-      <nav className="shadow-lg px-4 py-2">
+      <nav className="bg-gradient-to-br from-black via-gray-900 to-black px-4 py-2">
         <div className="flex items-center justify-between container mx-auto">
-          <div className="font-semibold text-xl">
+          <div className="font-semibold text-xl text-yellow-400">
             Byte<span className="text-yellow-400">Blog</span>
           </div>
           {/* Desktop */}
-          <div className=" mx-6">
-            <ul className="hidden md:flex space-x-6">
+          <div className="mx-6">
+            <ul className="hidden md:flex space-x-6 text-yellow-300">
               <Link to="/" className="hover:text-yellow-400">
                 HOME
               </Link>
@@ -58,7 +56,7 @@ function Navbar() {
               </Link>
             </ul>
             <div className="md:hidden" onClick={() => setShow(!show)}>
-              {show ? <IoCloseSharp size={24} /> : <AiOutlineMenu size={24} />}
+              {show ? <IoCloseSharp size={24} color="#FACC15" /> : <AiOutlineMenu size={24} color="#FACC15" />}
             </div>
           </div>
           <div className="hidden md:flex space-x-2">
@@ -92,17 +90,13 @@ function Navbar() {
             )}
           </div>
         </div>
-        {/* mobile navbar */}
+        {/* Mobile navbar */}
         {show && (
-          <div className="bg-white">
+          <div className="bg-gradient-to-br from-black via-gray-900 to-black text-yellow-300">
             <ul className="flex flex-col h-screen items-center justify-center space-y-3 md:hidden text-xl">
               <Link
                 to="/"
                 onClick={() => setShow(!show)}
-                smooth="true"
-                duration={500}
-                offset={-70}
-                activeClass="active"
                 className="hover:text-yellow-400"
               >
                 HOME
@@ -110,10 +104,6 @@ function Navbar() {
               <Link
                 to="/blogs"
                 onClick={() => setShow(!show)}
-                smooth="true"
-                duration={500}
-                offset={-70}
-                activeClass="active"
                 className="hover:text-yellow-400"
               >
                 BLOGS
@@ -121,10 +111,6 @@ function Navbar() {
               <Link
                 to="/creators"
                 onClick={() => setShow(!show)}
-                smooth="true"
-                duration={500}
-                offset={-70}
-                activeClass="active"
                 className="hover:text-yellow-400"
               >
                 CREATORS
@@ -132,10 +118,6 @@ function Navbar() {
               <Link
                 to="/about"
                 onClick={() => setShow(!show)}
-                smooth="true"
-                duration={500}
-                offset={-70}
-                activeClass="active"
                 className="hover:text-yellow-400"
               >
                 ABOUT
@@ -143,10 +125,6 @@ function Navbar() {
               <Link
                 to="/contact"
                 onClick={() => setShow(!show)}
-                smooth="true"
-                duration={500}
-                offset={-70}
-                activeClass="active"
                 className="hover:text-yellow-400"
               >
                 CONTACT
