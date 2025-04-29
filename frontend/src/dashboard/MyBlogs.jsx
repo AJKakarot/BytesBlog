@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../utils.js";
+import { useAuth } from "../context/AuthProvider";
 
 function MyBlogs() {
   const [myBlogs, setMyBlogs] = useState([]);
@@ -26,7 +27,7 @@ function MyBlogs() {
   const handleDelete = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:4000/api/blogs/delete/${id}`,
+        `${BACKEND_URL}/api/blogs/delete/${id}`,
         { withCredentials: true }
       );
       toast.success(res.data.message || "Blog deleted successfully");

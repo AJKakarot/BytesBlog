@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { BACKEND_URL } from "../utils.js";
 
 export const AuthContext = createContext();
 
@@ -8,12 +9,12 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true); // 👈 important
-
+  
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/users/my-profile",
+          `${BACKEND_URL}/api/users/my-profile`,
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -33,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     const fetchBlogs = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/blogs/all-blogs",
+          `${BACKEND_URL}/api/blogs/all-blogs`,
           { withCredentials: true }
         );
         setBlogs(data);

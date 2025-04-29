@@ -72,7 +72,7 @@ function UpdateBlog() {
 
     try {
       const { data } = await axios.put(
-        `http://localhost:4000/api/blogs/update/${id}`,
+        `http://:4000/api/blogs/update/${id}`,
         formData,
         {
           withCredentials: true,
