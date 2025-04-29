@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { BACKEND_URL } from "../utils.js";
 function MyProfile() {
   const [admin, setAdmin] = useState(null);
 
   useEffect(() => {
     const fetchAdmin = async () => {
       try {
-        const { data } = await axios.get("http://localhost:4000/api/users/admins", {
+        const { data } = await axios.get(`${BACKEND_URL}/api/users/admins`, {
           withCredentials: true,
         });
         setAdmin(data.admins[0]); // Show first admin

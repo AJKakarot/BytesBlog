@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import { motion } from "framer-motion";
+import { BACKEND_URL } from "../utils.js";
 
 function Creator() {
   const [admins, setAdmins] = useState([]);
@@ -11,7 +12,7 @@ function Creator() {
     const fetchAdmins = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/users/admins",
+          `${BACKEND_URL}/api/users/admins`,
           { withCredentials: true }
         );
         setAdmins(data.admins);
