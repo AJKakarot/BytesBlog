@@ -5,6 +5,7 @@ import { BiSolidLeftArrowAlt } from "react-icons/bi";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom"; // Import navigate
+import { BACKEND_URL } from "../utils.js";
 
 function Sidebar({ setComponent, setSidebarActive }) {
   const { profile, setIsAuthenticated } = useAuth();
