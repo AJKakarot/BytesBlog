@@ -6,13 +6,17 @@ import { v2 as cloudinary } from "cloudinary";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/user.route.js";
 import blogRoute from "./routes/blog.route.js";
+import path from "path";
 
 import cors from "cors";
+import e from "express";
 const app = express();
 dotenv.config();
 
 const port = process.env.PORT;
 const MONOGO_URL = process.env.MONGO_URI;
+
+const _dirname = path.resolve();
 
 //middleware
 app.use(express.json());
@@ -49,6 +53,12 @@ cloudinary.config({
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
 });
+
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+app.get("*", (_ , res) => {  
+  res.sendFile(path.join(_dirname, "frontend", "dist", "index.html"));
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
