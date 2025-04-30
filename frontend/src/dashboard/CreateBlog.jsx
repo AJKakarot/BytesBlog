@@ -33,7 +33,7 @@ function CreateBlog() {
 
     try {
       const { data } = await axios.post(
-        `${BACKEND_URL}/api/blogs/create`,
+        `https://bytesblog.onrender.com/api/blogs/create`,
         formData,
         {
           withCredentials: true,

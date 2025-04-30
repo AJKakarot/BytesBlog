@@ -25,7 +25,7 @@ function Sidebar({ setComponent, setSidebarActive }) {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `${BACKEND_URL}/api/users/logout`,
+        `https://bytesblog.onrender.com/api/users/logout`,
         { withCredentials: true }
       );
       toast.success(data.message);

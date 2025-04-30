@@ -7,7 +7,7 @@ function MyProfile() {
   useEffect(() => {
     const fetchAdmin = async () => {
       try {
-        const { data } = await axios.get(`${BACKEND_URL}/api/users/admins`, {
+        const { data } = await axios.get(`https://bytesblog.onrender.com/api/users/admins`, {
           withCredentials: true,
         });
         setAdmin(data.admins[0]); // Show first admin

@@ -29,7 +29,7 @@ function UpdateBlog() {
     const fetchBlog = async () => {
       try {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/blogs/single-blog/${id}`,
+          `https://bytesblog.onrender.com/api/blogs/single-blog/${id}`,
           {
             withCredentials: true,
             headers: {

@@ -40,7 +40,7 @@ function Register() {
     formData.append("photo", photo);
     try {
       const { data } = await axios.post(
-        `${BACKEND_URL}/api/users/register`,
+        `https://bytesblog.onrender.com/api/users/register`,
         formData,
         {
           withCredentials: true,

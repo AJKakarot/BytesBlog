@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
     const fetchProfile = async () => {
       try {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/users/my-profile`,
+          `https://bytesblog.onrender.com/api/users/my-profile`,
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     const fetchBlogs = async () => {
       try {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/blogs/all-blogs`,
+          "https://bytesblog.onrender.com/api/blogs/all-blogs",
           { withCredentials: true ,
             headers: { "Content-Type": "application/json" },
           }
