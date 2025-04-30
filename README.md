@@ -32,6 +32,7 @@ BytesBlog is a full-featured blogging platform built with the MERN stack (MongoD
 ## 📸 Screenshots
 
 ![image](https://github.com/user-attachments/assets/3b2b98d5-7839-4bee-a5b5-dd6e44f1b620)
+![image](https://github.com/user-attachments/assets/11eb5287-ddc8-414d-a5cd-1406df2e9aa1)
 
 ---
 
