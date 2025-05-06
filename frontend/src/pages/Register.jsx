@@ -39,6 +39,7 @@ function Register() {
     formData.append("role", role);
     formData.append("education", education);
     formData.append("photo", photo);
+
     try {
       const { data } = await axios.post(
         "https://bytesblog.onrender.com/api/users/register",
@@ -50,15 +51,19 @@ function Register() {
           },
         }
       );
-      console.log(data);
-      localStorage.setItem("jwt", data.token); // storing token in localStorage so that if user refreshed the page it will not redirect again in login
+
+      console.log("Register Response:", data);
+
       toast.success(data.message || "User registered successfully");
-   // Immediately go to login page after toast
-   navigateTo("/login");
 
+      // Immediately go to login page after toast
+      navigateTo("/login");
 
-      setProfile(data);
-      setIsAuthenticated(true);
+      // Optional: Update auth state only after redirection
+      // setProfile(data.user);
+      // setIsAuthenticated(true);
+
+      // Clear form fields
       setName("");
       setEmail("");
       setPhone("");
@@ -67,11 +72,10 @@ function Register() {
       setEducation("");
       setPhoto("");
       setPhotoPreview("");
-      navigateTo("/login");
     } catch (error) {
-      console.log(error);
+      console.log("Registration Error:", error);
       toast.error(
-        error.response.data.message || "Please fill the required fields"
+        error.response?.data?.message || "Please fill the required fields"
       );
     }
   };
@@ -100,7 +104,7 @@ function Register() {
                 placeholder="Your Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full p-2  border rounded-md"
+                className="w-full p-2 border rounded-md"
               />
             </div>
             <div className="mb-4">
@@ -109,7 +113,7 @@ function Register() {
                 placeholder="Your Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-2  border rounded-md"
+                className="w-full p-2 border rounded-md"
               />
             </div>
             <div className="mb-4">
@@ -118,7 +122,7 @@ function Register() {
                 placeholder="Your Phone Number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full p-2  border rounded-md"
+                className="w-full p-2 border rounded-md"
               />
             </div>
             <div className="mb-4">
@@ -127,7 +131,7 @@ function Register() {
                 placeholder="Your Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-2  border rounded-md"
+                className="w-full p-2 border rounded-md"
               />
             </div>
             <select
@@ -151,7 +155,7 @@ function Register() {
               <input
                 type="file"
                 onChange={changePhotoHandler}
-                className="w-full p-2  border rounded-md"
+                className="w-full p-2 border rounded-md"
               />
             </div>
             <p className="text-center mb-4">
