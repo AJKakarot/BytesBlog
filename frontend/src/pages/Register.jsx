@@ -53,6 +53,10 @@ function Register() {
       console.log(data);
       localStorage.setItem("jwt", data.token); // storing token in localStorage so that if user refreshed the page it will not redirect again in login
       toast.success(data.message || "User registered successfully");
+   // Immediately go to login page after toast
+   navigateTo("/login");
+
+
       setProfile(data);
       setIsAuthenticated(true);
       setName("");
@@ -78,7 +82,7 @@ function Register() {
         <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
           <form onSubmit={handleRegister}>
             <div className="font-semibold text-xl items-center text-center">
-              Bytes<span className="text-blue-500">Blog</span>
+              Bytes<span className="text-yellow-400">Blog</span>
             </div>
             <h1 className="text-xl font-semibold mb-6">Register</h1>
             <select
@@ -132,8 +136,8 @@ function Register() {
               className="w-full p-2 mb-4 border rounded-md"
             >
               <option value="">Select Your Education</option>
-              <option value="BCA ">BCA</option>
-              <option value="MCA ">MCA</option>
+              <option value="BCA ">B.Tech</option>
+              <option value="MCA ">M.Tech</option>
               <option value="MBA ">MBA</option>
               <option value="BBA ">BBA</option>
             </select>
