@@ -1,43 +1,34 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { BACKEND_URL } from "../utils.js";
+import React from "react";
+import { useAuth } from "../context/AuthProvider";
+
 function MyProfile() {
-  const [admin, setAdmin] = useState(null);
-
-  useEffect(() => {
-    const fetchAdmin = async () => {
-      try {
-        const { data } = await axios.get(`https://bytesblog.onrender.com/api/users/admins`, {
-          withCredentials: true,
-        });
-        setAdmin(data.admins[0]); // Show first admin
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchAdmin();
-  }, []);
-
-  if (!admin) {
-    return <p className="text-yellow-400 text-center mt-10">Loading...</p>;
-  }
-
+  const { profile } = useAuth();
+  console.log(profile?.user);
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
-      <div className="bg-black shadow-lg rounded-2xl overflow-hidden w-full max-w-sm p-6 border-2 border-yellow-500">
-        {/* Only Profile Image */}
-        <div className="flex flex-col items-center">
-          <img
-            src={admin.photo.url}
-            alt="Admin Profile"
-            className="w-28 h-28 rounded-full border-4 border-yellow-500 bg-black p-1 object-cover mb-4"
-          />
-          <h2 className="text-2xl font-bold text-yellow-400">{admin.name}</h2>
-          <div className="mt-4 space-y-2 text-center text-yellow-300">
-            <p><span className="font-semibold">Email:</span> {admin.email}</p>
-            <p><span className="font-semibold">Phone:</span> {admin.phone}</p>
-            <p><span className="font-semibold">Role:</span> {admin.role}</p>
-            <p><span className="font-semibold">Joined:</span> {new Date(admin.createdAt).toLocaleDateString()}</p>
+    <div>
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+        <div className="bg-white/10 backdrop-blur-md shadow-xl rounded-2xl overflow-hidden max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full border border-white/20">
+          <div className="relative">
+            <img
+              src={profile?.user?.photo?.url}
+              alt="banner"
+              className="w-full h-48 object-cover"
+            />
+            <div className="absolute inset-x-0 bottom-0 transform translate-y-1/2">
+              <img
+                src={profile?.user?.photo?.url}
+                alt="avatar"
+                className="w-24 h-24 rounded-full mx-auto border-4 border-yellow-400"
+              />
+            </div>
+          </div>
+          <div className="px-6 py-10 mt-4 text-center text-white">
+            <h2 className="text-2xl font-semibold text-yellow-400">
+              {profile?.user?.name}
+            </h2>
+            <p className="text-white/80 mt-2">{profile?.user?.email}</p>
+            <p className="text-white/80 mt-2">{profile?.user?.phone}</p>
+            <p className="text-white/70 mt-2">{profile?.user?.role}</p>
           </div>
         </div>
       </div>
