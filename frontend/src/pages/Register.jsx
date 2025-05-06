@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
-import { BACKEND_URL } from "../utils.js";
 
 function Register() {
   const { setIsAuthenticated, setProfile } = useAuth();
@@ -15,40 +14,37 @@ function Register() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [education, setEducation] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(""); // base64
   const [photoPreview, setPhotoPreview] = useState("");
 
   const changePhotoHandler = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => {
-      setPhotoPreview(reader.result);
-      setPhoto(file);
+    reader.onloadend = () => {
+      setPhotoPreview(reader.result); // for preview
+      setPhoto(reader.result); // base64 string to send
     };
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("password", password);
-    formData.append("role", role);
-    formData.append("education", education);
-    formData.append("photo", photo);
+
     try {
       const { data } = await axios.post(
-        `https://bytesblog.onrender.com/api/users/register`,
-        formData,
+        "https://bytesblog.onrender.com/api/users/register",
         {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+          name,
+          email,
+          phone,
+          password,
+          role,
+          education,
+          photo, // base64 string
+        },
+        { withCredentials: true }
       );
+
       toast.success(data.message || "User registered successfully");
       setName("");
       setEmail("");
@@ -58,9 +54,9 @@ function Register() {
       setEducation("");
       setPhoto("");
       setPhotoPreview("");
-      navigateTo("/login"); // ✅ go to login after successful registration
+      navigateTo("/login");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error(error.response?.data?.message || "Registration failed");
     }
   };
@@ -122,8 +118,8 @@ function Register() {
             className="w-full p-3 bg-white/20 text-black border border-white/30 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
           >
             <option value="">Select Your Education</option>
-            <option value="BCA">B.TECH</option>
-            <option value="MCA">M.TECH</option>
+            <option value="B.TECH">B.TECH</option>
+            <option value="M.TECH">M.TECH</option>
             <option value="MBA">MBA</option>
             <option value="BBA">BBA</option>
           </select>
@@ -131,13 +127,14 @@ function Register() {
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white">
               <img
-                src={photoPreview ? photoPreview : "https://via.placeholder.com/80"}
-                alt=""
+                src={photoPreview || "https://placehold.co/80"}
+                alt="Preview"
                 className="w-full h-full object-cover"
               />
             </div>
             <input
               type="file"
+              accept="image/*"
               onChange={changePhotoHandler}
               className="flex-1 p-2 text-black file:bg-yellow-400 file:text-blue-900 file:rounded-md file:px-3 file:py-1"
             />
